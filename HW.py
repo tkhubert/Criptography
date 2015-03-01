@@ -1,14 +1,38 @@
 __author__ = 'tkhubert'
 
 from CryptoImport import *
+from CBC import CBC_AES
 
 def main():
+    # HW5
+    print "HW5------------------"
+
     # HW4
     print "HW4------------------"
-    y2 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    print y2
-    print y2.decode('hex')
-    print unhexlify(y2)
+    iv  = '20814804c1767293b99f1d9cab3bc3e7'
+    key = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+    msg = 'Pay Bob 100$    '
+    iv1 = '        500$    '
+    iv2 = '        100$    '
+
+    cipher = AES.new(unhexlify(key), AES.MODE_CBC, unhexlify(iv))
+    c = unhexlify(iv)+cipher.encrypt(msg)
+    d = cipher.decrypt(c)
+    c1 = strxor(strxor(unhexlify(iv), iv1), iv2) + c[16:]
+    d1 = cipher.decrypt(c1)
+    print hexlify(c)
+    print hexlify(c1)
+    print d[16:]
+    print d1[16:]
+
+    c  = '20814804c1767293b99f1d9cab3bc3e7ac1e37bfb15599e5f40eef805488281d'
+    c  = unhexlify(c)
+    iv = c[:16]
+    c1 = strxor(strxor(iv, iv1), iv2) + c[16:]
+    print hexlify(c)
+    print hexlify(c1)
+    d1 = cipher.decrypt(c1)
+    print d1[16:]
 
     # HW3
     print "HW3------------------"
